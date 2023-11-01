@@ -1,0 +1,15 @@
+meta {
+  name: Get weather forecast
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{WeatherWebApi}}/weatherforecast
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+}
