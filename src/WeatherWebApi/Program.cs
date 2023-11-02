@@ -7,7 +7,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddFeatureManagement(/*builder.Configuration.GetSection("FeatureFlags")*/)
     .AddFeatureFilter<PercentageFilter>()
     .AddFeatureFilter<TimeWindowFilter>()
-    /*.AddFeatureFilter<TargetingFilter>()*/;
+    /*.AddFeatureFilter<TargetingFilter>()*/
+    .AddFeatureFilter<MyCustomFilter>();
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
