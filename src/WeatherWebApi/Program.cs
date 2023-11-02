@@ -13,7 +13,11 @@ app.UseHttpsRedirection();
 
 var weatherService = new WeatherService();
 
-app.MapGet("/weatherforecast", () => weatherService.Get())
+var forecastEnabled = true;
+
+app.MapGet("/weatherforecast", () => forecastEnabled
+        ? Results.Ok(weatherService.Get())
+        : Results.NotFound())
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
