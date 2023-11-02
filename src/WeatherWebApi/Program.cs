@@ -13,7 +13,7 @@ app.UseHttpsRedirection();
 
 var weatherService = new WeatherService();
 
-var forecastEnabled = true;
+var forecastEnabled = builder.Configuration.GetValue<bool>("FeatureFlags:WeatherForecast");
 
 app.MapGet("/weatherforecast", () => forecastEnabled
         ? Results.Ok(weatherService.Get())
