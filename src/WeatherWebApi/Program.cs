@@ -1,9 +1,13 @@
 using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddFeatureManagement(/*builder.Configuration.GetSection("FeatureFlags")*/);
+builder.Services.AddFeatureManagement(/*builder.Configuration.GetSection("FeatureFlags")*/)
+    .AddFeatureFilter<PercentageFilter>()
+    .AddFeatureFilter<TimeWindowFilter>()
+    /*.AddFeatureFilter<TargetingFilter>()*/;
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
