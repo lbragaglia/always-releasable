@@ -1,0 +1,16 @@
+meta {
+  name: Get weather forecast (controller)
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{WeatherWebApi}}/weatherforecast2
+  body: none
+  auth: none
+}
+
+headers {
+  Accept: application/json
+  X-Lucky-Number: 48
+}

@@ -10,6 +10,10 @@ builder.Services.AddFeatureManagement(/*builder.Configuration.GetSection("Featur
     /*.AddFeatureFilter<TargetingFilter>()*/
     .AddFeatureFilter<MyCustomFilter>();
 
+var weatherService = new WeatherService();
+builder.Services.Add(new ServiceDescriptor(typeof(WeatherService), weatherService));
+builder.Services.AddControllers();
+
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
@@ -19,7 +23,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var weatherService = new WeatherService();
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapGet("/weatherforecast", () => weatherService.Get())
     .AddEndpointFilter<WeatherForecastFeatureFilter>()
