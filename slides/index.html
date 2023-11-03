@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Tecniche di gestione del codice incompleto</title>
+		<title>Always releasable</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -18,28 +18,196 @@
 			<div class="slides">
 				
             <section>
-                <h1>Tecniche di gestione del codice incompleto</h1>
-                <h3>Ottimizzazione della produttività nello sviluppo software</h3>
-            </section>
-            
-            <!-- Slide 2: Introduction -->
-            <section>
-                <h2>Introduction</h2>
-				<p>In the next few slides, we will delve into the following:</p>
-                <ul>
-                    <li>Defining Incomplete Code</li>
-                    <li>Common Causes</li>
-                    <li>Associated Issues</li>
-                    <li>Effective Techniques</li>
-                    <li>Best Practices</li>
-                    <li>Case Studies</li>
-                </ul>
-                
+                <h1>Always releasable</h1>
+				<h3>code management techniques</h3>
+                <p>How to release features progressively, continuously and in a testable way</p>
+				
 				<aside class="notes">
+					... even if not complete or not ready or simply temporary or experiments to get feedback.
 				</aside>
             </section>
             
             <section>
+				<h2>Agenda</h2>
+                <ul>
+                    <li>Continuous delivery</li>
+                    <li>Latent code patterns</li>
+                    <li>Feature flags</li>
+                    <li>Branch by abstraction</li>
+                    <li>Demo/code</li>
+                </ul>
+            </section>
+            
+			<section>
+				<section>
+					<h3>Continuous delivery</h3>
+					<ul>
+						<li>Reduce risk</li>
+						<li>Early feedback</li>
+						<li>Faster production releases</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Software delivery performance</h3>
+					<p>DORA metrics:</p>
+					<ul>
+						<li>Lead time for changes</li>
+						<li>Deployment frequency</li>
+						<li>Change failure rate</li>
+						<li>Time to restore service</li>
+					</ul>
+					<aside class="notes">
+						<p>DevOps Research and Assessment metrics:</p>
+						<ul>
+							<li>Lead time for changes: How long does it take to go from code committed to code successfully running in production?</li>
+							<li>Deployment frequency: How often does your organization deploy code to production or release it to end users?</li>
+							<li>Change failure rate: What percentage of changes to production or released to users result in degraded service (e.g., lead to service impairment or service outage) and subsequently require remediation (e.g., require a hotfix, rollback, fix forward, patch)?</li>
+							<li>Time to restore service: How long does it generally take to restore service when a service incident or a defect that impacts users occurs (e.g., unplanned outage, service impairment)?</li>
+						</ul>
+						<p>See State of DevOps Report, Book "Accelerate" 2018</p>
+					</aside>
+				</section>
+				<section>
+					<ul>
+						<li>Continuous testing</li>
+						<li>Progressive delivery</li>
+					</ul>
+				</section>
+				<section>
+					<h4>Continuous testing</h4>
+					<ul>
+						<li>Shift-left: TDD, automation, ...</li>
+						<li>Shift-right: Test in production</li>
+					</ul>
+				</section>
+				<section>
+					<h4>Test in production</h4>
+					<ul>
+						<li>QA in production (observability)</li>
+						<li>Synthetic monitoring</li>
+						<li>Dark launching, progressive rollout</li>
+						<li>Chaos engineering</li>
+					</ul>
+				</section>
+				<section>
+					<h4>Progressive delivery</h4>
+					<ul>
+						<li>Canary release, blue/green deployment</li>
+						<li>Experiments, A/B testing</li>
+						<li>Feature flags, dark launching</li>
+						<li>Keystone interface</li>
+					</ul>
+				</section>
+            </section>
+            
+			<section>
+				<section>
+					<h3>Trunk-based development</h3>
+					<ul>
+						<li>Git workflow and branching patterns
+						<li>Feature flags and branch by abstraction
+						<li>Ship/Show/Ask branching/code-review strategy
+					</ul>
+				</section>
+				<section>
+					<img src="https://trunkbaseddevelopment.com/trunk1c.png">
+				</section>
+			</section>
+			
+			<section>
+				<section>
+					<h3>Latent code patterns</h3>
+				</section>
+				<section>
+					<ul>
+						<li>Latent-to-live code pattern</li>
+						<li>Forward compatible interim versions</li>
+					</ul>
+					<aside class="notes">
+						<p>Latent-to-live code pattern: a gradual transition of latent code to live code, that provides early feedback from production on features under development, while keeping the software and the code-base always in a releasable state.</p>
+						<p>Forward compatible interim versions: a way to deal with complex changes that break backward compatibility, without giving up remediation plans such as automated deploy rollbacks.</p>
+					</aside>
+				</section>
+				<section>
+					<h3>Parallel change</h3>
+					<p>Expand and contract</p>
+				</section>
+				<section>
+					<h3>Strangler fig</h3>
+					<p>Wrap legacy code</p>
+				</section>
+            </section>
+			
+			<section>
+				<section>
+					<h3>Feature flags</h3>
+					<p>A technique to modify system behavior without changing code</p>
+				</section>
+				<section>
+					<img src="https://martinfowler.com/articles/feature-toggles/chart-4.png">
+				</section>
+				<section>
+					<ul>
+						<li>Release Flag</li>
+						<li>Experiment</li>
+						<li>Entitlement/Access Management</li>
+						<li>Ops Flag</li>
+						<li>Business Flag</li>
+					</ul>
+					<aside class="notes">
+					    Release Flag: Enable true CI/CD
+        Avoid creating a separate feature branch and branch merge nightmare
+        “Decouple feature deployment and feature release”
+        You no longer need to dread the big launch day. Your code would have been in production for several days or weeks before it becomes open to users
+    Experiment: Canary testing or A/B testing. Release new features to production to a small population of users. For instance:
+        Release new UI feature for users who opted in for beta testing
+    Entitlement/Access Management: Unlike most other feature flags, this type of flag has a longer lifecycle
+        Control access to features based on user access level, subscription category, and so on
+    Ops Flag: This is essentially a manual circuit breaker
+        Kill-switch that offers gracefully degradation of a system under stress during peak load, but maintains essential features
+        Essential for any feature that would impact the performance of the system
+    Business Flag: Enable or disable feature based on geography, time of year, and so on
+        A global app that enables features based on the country you are in
+        Enable free subscription for just a weekend
+					</aside>
+				</section>
+				<section>
+					<ul>
+						<li>Feature Flag-based Progressive Delivery</li>
+						<li>Targeted Roll-out of New Features</li>
+					</ul>
+				</section>
+				<section>
+					<p>Best Practices and Avoiding Technical Debt</p>
+					<ul>
+					<li>
+					    Each feature should have its own flag. Never re-use a flag</li>
+    <li>Appropriate naming of each flag is vital to avoid any ambiguity</li>
+    <li>Short-lived flags such as release flags, experimental flags, etc. should be promptly removed once the feature is live</li>
+    <li>Control and audit access to flags</li>
+    <li>Look at breaking down the feature sufficiently before looking at Release Flags</li>
+					</ul>
+				</section>
+            </section>
+			
+			<section>
+				<section>
+					<h3>Branch by abstraction</h3>
+					<p>Introduce an abstraction layer to decouple dependencies to apply big impact or long running changes.</p>
+				</section>
+				<section><img src="https://martinfowler.com/bliki/images/branch-by-abstraction/step-1.png"></section>
+				<section><img src="https://martinfowler.com/bliki/images/branch-by-abstraction/step-2.png"></section>
+				<section><img src="https://martinfowler.com/bliki/images/branch-by-abstraction/step-3.png"></section>
+				<section><img src="https://martinfowler.com/bliki/images/branch-by-abstraction/step-4.png"></section>
+				<section><img src="https://martinfowler.com/bliki/images/branch-by-abstraction/step-5.png"></section>
+			</section>
+			
+			<section>
+                <h3>Demo</h3>
+            </section>
+			
+			<section>
+                <h1>Thank you!</h1>
             </section>
             
 			</div>
